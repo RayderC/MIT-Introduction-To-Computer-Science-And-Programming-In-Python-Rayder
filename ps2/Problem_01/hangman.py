@@ -42,8 +42,8 @@ def choose_word(wordlist):
 
     secret_word = random.choice(wordlist)
     print(secret_word)
+    list_secret_word = list(secret_word)
     return secret_word
-    letters_guessed = 0
 
 
 # end of helper code
@@ -79,30 +79,53 @@ def get_guessed_word(secret_word, letters_guessed):
     pass
 
 
-def get_available_letters():
+def get_available_letters(guess, list_secret_word):
     '''
     letters_guessed
     letters_guessed: list (of letters), which letters have been guessed so far
     returns: string (of letters), comprised of letters that represents which letters have not
       yet been guessed.
     '''
+    list_secret_word.remove(guess)
+    print(list_secret_word)
 
-    amt_of_letters_in_word = 0
-    for x in secret_word:
-        amt_of_letters_in_word += 1
-    print(amt_of_letters_in_word)
 
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+
 
 
 def hangman(secret_word):
-    get_available_letters()
+    game = True
     '''
     secret_word: string, the secret word to guess.
     
     Starts up an interactive game of Hangman.
-    
+    '''
+    amt_of_letters_in_word = 0
+    for x in secret_word:
+        amt_of_letters_in_word += 1
+    print(f"The word you're guessing has {amt_of_letters_in_word} letters in it.")
+
+    guessed_wrong = list
+    guessed_letters = list
+    list_secret_word = list(secret_word)
+
+
+    while game:
+        guess = input("Enter a letter to guess: ")
+        if guess in guessed_letters:
+            print(f"You've already guessed {guess}, please try a new letter.")
+            exit()
+        else:
+            if guess in list_secret_word:
+                get_available_letters(guess, list_secret_word)
+            else:
+                guessed_wrong.append(guess)
+                print(f"{guess} is not in the word")
+
+
+
+
+    '''
     * At the start of the game, let the user know how many 
       letters the secret_word contains and how many guesses s/he starts with.
       
