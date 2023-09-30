@@ -2,7 +2,7 @@
 # Name: 
 # Collaborators:
 # Time spent:
-
+import os
 # Hangman Game
 # -----------------------------------
 # Helper code
@@ -10,6 +10,7 @@
 # but you will have to know how to use the functions
 # (so be sure to read the docstrings!)
 import random
+import subprocess
 
 WORDLIST_FILENAME = "words.txt"
 
@@ -53,58 +54,28 @@ guessed_letters = []
 wordlist = load_words()
 
 
-def is_word_guessed(list_secret_word):
-    """
-    secret_word: string, the word the user is guessing; assumes all letters are
-      lowercase
-    letters_guessed: list (of letters), which letters have been guessed so far;
-      assumes that all letters are lowercase
-    returns: boolean, True if all the letters of secret_word are in letters_guessed;
-      False otherwise
-    """
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    if not list_secret_word:
-        print(f"You Win\nThe Word was {secret_word}")
-        exit()
-
-
-def get_guessed_word(letters_guessed):
-    """
-    secret_word: string, the word the user is guessing
-    letters_guessed: list (of letters), which letters have been guessed so far
-    returns: string, comprised of letters, underscores (_), and spaces that represents
-      which letters in secret_word have been guessed so far.
-    """
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
-
-
-def get_available_letters(guess, list_secret_word):
-    """
-    letters_guessed
-    letters_guessed: list (of letters), which letters have been guessed so far
-    returns: string (of letters), comprised of letters that represents which letters have not
-      yet been guessed.
-    """
-    list_secret_word.remove(guess)
-    is_word_guessed(list_secret_word)
-
-
-def user_input():
+def user_input(amt_of_letters_in_word):
     guessed_wrong = []
     list_secret_word = list(set(secret_word))
 
     while True:
-        guess = input("\nEnter a letter to guess: ").lower()
+        print(f"\nThe word you're guessing has {amt_of_letters_in_word} letters in it.")
+        guess = input("Enter a letter to guess: ").lower()
+        subprocess.run('cls', shell=True)
         if len(guess) != 1 or not guess.isalpha():
             print("Please enter a valid single letter.")
+            display_word()
             continue
         if guess in guessed_letters:
             print(f"You've already guessed {guess}, please try a new letter.")
         else:
             guessed_letters.append(guess)
             if guess in list_secret_word:
-                get_available_letters(guess, list_secret_word)
+                list_secret_word.remove(guess)
+                if not list_secret_word:
+                    print(f"You Win\nThe Word was {secret_word}")
+                    input("\nHit any key to exit.")
+                    exit()
                 print(f"{guess} is in the word")
             else:
                 guessed_wrong.append(guess)
@@ -113,7 +84,7 @@ def user_input():
 
 
 def display_word():
-    display = ""
+    display = "Guessed so far: "
     for letter in secret_word:
         if letter in guessed_letters:
             display += letter
@@ -132,8 +103,7 @@ def hangman(secret_word):
     amt_of_letters_in_word = 0
     for x in secret_word:
         amt_of_letters_in_word += 1
-    print(f"The word you're guessing has {amt_of_letters_in_word} letters in it.")
-    user_input()
+    user_input(amt_of_letters_in_word)
 
     '''
     * At the start of the game, let the user know how many 
@@ -156,7 +126,6 @@ def hangman(secret_word):
     Follows the other limitations detailed in the problem write-up.
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
 
 
 # When you've completed your hangman function, scroll down to the bottom
@@ -248,3 +217,5 @@ if __name__ == "__main__":
 
 # secret_word = choose_word(wordlist)
 # hangman_with_hints(secret_word)
+
+input("hit and key to exit")
