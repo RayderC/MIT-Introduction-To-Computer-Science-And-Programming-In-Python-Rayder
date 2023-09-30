@@ -2,7 +2,6 @@
 # Name: 
 # Collaborators:
 # Time spent:
-import os
 # Hangman Game
 # -----------------------------------
 # Helper code
@@ -10,19 +9,14 @@ import os
 # but you will have to know how to use the functions
 # (so be sure to read the docstrings!)
 import random
-import subprocess
-from colorama import Fore, Style
+from colorama import Fore
+
+from User_Input import user_input
 
 WORDLIST_FILENAME = "words.txt"
 
 
 def load_words():
-    """
-    Returns a list of valid words. Words are strings of lowercase letters.
-    
-    Depending on the size of the word list, this function may
-    take a while to finish.
-    """
     print("Loading word list from file...")
     # in_file: file
     in_file = open(WORDLIST_FILENAME, 'r')
@@ -34,18 +28,6 @@ def load_words():
     return wordlist
 
 
-def choose_word(wordlist):
-    """
-    wordlist (list): list of words (strings)
-    
-    Returns a word from wordlist at random
-    """
-
-    secret_word = random.choice(wordlist).lower()
-    # print(secret_word)
-    return secret_word
-
-
 # end of helper code
 guessed_letters = []
 # -----------------------------------
@@ -55,81 +37,15 @@ guessed_letters = []
 wordlist = load_words()
 
 
-def user_input(amt_of_letters_in_word):
-    guessed_wrong = []
-    list_secret_word = list(set(secret_word))
-
-    while True:
-        print(Fore.RESET)
-        print(Fore.LIGHTMAGENTA_EX + "\nThe word you're guessing has " + Fore.CYAN + f"{amt_of_letters_in_word} " + Fore.LIGHTMAGENTA_EX + "letters in it.")
-        guess = input(Fore.LIGHTYELLOW_EX + "Enter a letter to guess: ").lower()
-        subprocess.run('cls', shell=True)
-        if len(guess) != 1 or not guess.isalpha():
-            print(Fore.RED + "Please enter a valid single letter.")
-            display_word()
-            continue
-        if guess in guessed_letters:
-            print(Fore.RED + f"You've already guessed {guess}, please try a new letter.")
-        else:
-            guessed_letters.append(guess)
-            if guess in list_secret_word:
-                list_secret_word.remove(guess)
-                if not list_secret_word:
-                    print(Fore.LIGHTGREEN_EX + "You Win\nThe Word was " + Fore.CYAN + f"{secret_word}")
-                    input("\nHit any key to exit.")
-                    exit()
-                print(Fore.LIGHTGREEN_EX + f"{guess} is in the word")
-            else:
-                guessed_wrong.append(guess)
-                print(Fore.LIGHTRED_EX + f"{guess} is not in the word")
-        display_word()
-
-
-def display_word():
-    display = Fore.MAGENTA + "Guessed so far: " + Fore.CYAN
-    for letter in secret_word:
-        if letter in guessed_letters:
-            display += letter
-        else:
-            display += "_"
-    print(display)
-
-
-def hangman(secret_word):
-    """
-    secret_word: string, the secret word to guess.
-
-    Starts up an interactive game of Hangman.
-    """
+def hangman():
+    secret_word = "Hello"  # random.choice(wordlist).lower()
     print("\nWelcome to Hangman!")
     amt_of_letters_in_word = 0
     for x in secret_word:
         amt_of_letters_in_word += 1
     input("Hit any key to start the game!")
 
-    user_input(amt_of_letters_in_word)
-
-    '''
-    * At the start of the game, let the user know how many 
-      letters the secret_word contains and how many guesses s/he starts with.
-      
-    * The user should start with 6 guesses
-
-    * Before each round, you should display to the user how many guesses
-      s/he has left and the letters that the user has not yet guessed.
-    
-    * Ask the user to supply one guess per round. Remember to make
-      sure that the user puts in a letter!
-    
-    * The user should receive feedback immediately after each guess 
-      about whether their guess appears in the computer's word.
-
-    * After each guess, you should display to the user the 
-      partially guessed word so far.
-    
-    Follows the other limitations detailed in the problem write-up.
-    '''
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
+    user_input(amt_of_letters_in_word, secret_word, guessed_letters)
 
 
 # When you've completed your hangman function, scroll down to the bottom
@@ -211,8 +127,8 @@ if __name__ == "__main__":
     # To test part 2, comment out the pass line above and
     # uncomment the following two lines.
 
-    secret_word = choose_word(wordlist)
-    hangman(secret_word)
+    secret_word = choose_word()
+    hangman()
 
 ###############
 
