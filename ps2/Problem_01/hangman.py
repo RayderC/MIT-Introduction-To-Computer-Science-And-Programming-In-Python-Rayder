@@ -11,6 +11,7 @@ import os
 # (so be sure to read the docstrings!)
 import random
 import subprocess
+from colorama import Fore, Style
 
 WORDLIST_FILENAME = "words.txt"
 
@@ -59,32 +60,33 @@ def user_input(amt_of_letters_in_word):
     list_secret_word = list(set(secret_word))
 
     while True:
-        print(f"\nThe word you're guessing has {amt_of_letters_in_word} letters in it.")
-        guess = input("Enter a letter to guess: ").lower()
+        print(Fore.RESET)
+        print(Fore.LIGHTMAGENTA_EX + "\nThe word you're guessing has " + Fore.CYAN + f"{amt_of_letters_in_word} " + Fore.LIGHTMAGENTA_EX + "letters in it.")
+        guess = input(Fore.LIGHTYELLOW_EX + "Enter a letter to guess: ").lower()
         subprocess.run('cls', shell=True)
         if len(guess) != 1 or not guess.isalpha():
-            print("Please enter a valid single letter.")
+            print(Fore.RED + "Please enter a valid single letter.")
             display_word()
             continue
         if guess in guessed_letters:
-            print(f"You've already guessed {guess}, please try a new letter.")
+            print(Fore.RED + f"You've already guessed {guess}, please try a new letter.")
         else:
             guessed_letters.append(guess)
             if guess in list_secret_word:
                 list_secret_word.remove(guess)
                 if not list_secret_word:
-                    print(f"You Win\nThe Word was {secret_word}")
+                    print(Fore.LIGHTGREEN_EX + "You Win\nThe Word was " + Fore.CYAN + f"{secret_word}")
                     input("\nHit any key to exit.")
                     exit()
-                print(f"{guess} is in the word")
+                print(Fore.LIGHTGREEN_EX + f"{guess} is in the word")
             else:
                 guessed_wrong.append(guess)
-                print(f"{guess} is not in the word")
+                print(Fore.LIGHTRED_EX + f"{guess} is not in the word")
         display_word()
 
 
 def display_word():
-    display = "Guessed so far: "
+    display = Fore.MAGENTA + "Guessed so far: " + Fore.CYAN
     for letter in secret_word:
         if letter in guessed_letters:
             display += letter
@@ -103,6 +105,8 @@ def hangman(secret_word):
     amt_of_letters_in_word = 0
     for x in secret_word:
         amt_of_letters_in_word += 1
+    input("Hit any key to start the game!")
+
     user_input(amt_of_letters_in_word)
 
     '''
