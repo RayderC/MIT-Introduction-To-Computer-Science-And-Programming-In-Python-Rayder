@@ -1,4 +1,4 @@
-from Display_Word import display_word
+import Display_Word
 import subprocess
 from colorama import Fore
 
@@ -19,7 +19,7 @@ def user_input(amt_of_letters_in_word, secret_word, guessed_letters):
         # Checks if guess is a Valid input
         if len(guess) != 1 or not guess.isalpha():
             print(Fore.RED + "Please enter a valid single letter.")
-            display_word()
+            Display_Word.display_word(secret_word, guessed_letters)
             continue
 
         # Checks if letter was already guessed
@@ -38,4 +38,4 @@ def user_input(amt_of_letters_in_word, secret_word, guessed_letters):
             else:
                 guessed_wrong.append(guess)
                 print(Fore.LIGHTRED_EX + f"{guess} is NOT in the word")
-        display_word()
+        Display_Word.display_word(secret_word, guessed_letters)

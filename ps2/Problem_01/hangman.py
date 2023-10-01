@@ -11,8 +11,7 @@
 import random
 from colorama import Fore
 
-from User_Input import user_input
-
+import User_Input
 WORDLIST_FILENAME = "words.txt"
 
 
@@ -38,14 +37,13 @@ wordlist = load_words()
 
 
 def hangman():
-    secret_word = "Hello"  # random.choice(wordlist).lower()
+    secret_word = random.choice(wordlist).lower()
     print("\nWelcome to Hangman!")
     amt_of_letters_in_word = 0
     for x in secret_word:
         amt_of_letters_in_word += 1
-    input("Hit any key to start the game!")
-
-    user_input(amt_of_letters_in_word, secret_word, guessed_letters)
+    input("Hit enter to start the game!")
+    User_Input.user_input(amt_of_letters_in_word, secret_word, guessed_letters)
 
 
 # When you've completed your hangman function, scroll down to the bottom
