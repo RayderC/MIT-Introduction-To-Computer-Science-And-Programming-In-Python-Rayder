@@ -1,11 +1,12 @@
 import Display_Word
 import subprocess
 from colorama import Fore
+import new_letter
 
 
 def user_input(amt_of_letters_in_word, secret_word, guessed_letters):
     # Variables for this function
-    guessed_wrong = []
+
     list_secret_word = list(set(secret_word))
 
     while True:
@@ -27,15 +28,5 @@ def user_input(amt_of_letters_in_word, secret_word, guessed_letters):
             print(Fore.RED + f"You've already guessed {guess}, please try a new letter.")
 
         else:
-            guessed_letters.append(guess)  # Adds guessed letter to list of guessed letters
-            if guess in list_secret_word:
-                list_secret_word.remove(guess)  # If the guessed letter is in the Word it'll remove it from the list
-                if not list_secret_word:  # Checks for win
-                    print(Fore.LIGHTGREEN_EX + "You Win\nThe Word was " + Fore.CYAN + f"{secret_word}")
-                    input("\nHit any key to exit.")
-                    exit()
-                print(Fore.LIGHTGREEN_EX + f"{guess} is in the word")
-            else:
-                guessed_wrong.append(guess)
-                print(Fore.LIGHTRED_EX + f"{guess} is NOT in the word")
+            new_letter.new_letter_guess(guess, secret_word, guessed_letters, list_secret_word)
         Display_Word.display_word(secret_word, guessed_letters)

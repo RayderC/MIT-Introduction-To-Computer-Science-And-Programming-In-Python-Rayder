@@ -1,4 +1,4 @@
-# Problem Set 2, hangman.py
+# Problem Set 2, main.py
 # Name: 
 # Collaborators:
 # Time spent:
