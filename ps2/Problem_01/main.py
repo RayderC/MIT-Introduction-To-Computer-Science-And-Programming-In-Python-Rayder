@@ -9,7 +9,6 @@
 # but you will have to know how to use the functions
 # (so be sure to read the docstrings!)
 import random
-
 import User_Input
 WORDLIST_FILENAME = "words.txt"
 
